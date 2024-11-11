@@ -1,0 +1,98 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: #d0d0d0;
+    background-color: #0d0f12;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* Header */
+header {
+    padding: 20px;
+    background: #1b1f23;
+    text-align: center;
+    border-bottom: 2px solid #00ffc3;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: #00ffc3;
+    text-shadow: 0px 0px 8px rgba(0, 255, 195, 0.7);
+}
+
+nav ul {
+    list-style: none;
+    padding: 10px 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: #00ffc3;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #ff00b3;
+}
+
+/* Section Styling */
+section {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    background: #16191d;
+    border-left: 4px solid #00ffc3;
+    box-shadow: 0px 0px 12px rgba(0, 255, 195, 0.3);
+    margin-top: 20px;
+}
+
+h2 {
+    color: #00ffc3;
+    text-shadow: 0px 0px 5px rgba(0, 255, 195, 0.7);
+}
+
+p {
+    margin-top: 10px;
+    color: #d0d0d0;
+    font-size: 1.1rem;
+}
+
+/* Footer */
+footer {
+    background: #1b1f23;
+    text-align: center;
+    padding: 20px;
+    border-top: 2px solid #00ffc3;
+}
+
+footer p {
+    color: #00ffc3;
+}
+
+/* Cyberpunk Glow */
+h1, h2 {
+    text-shadow: 0px 0px 8px #00ffc3, 0px 0px 15px #00ffc3;
+}
+
+a {
+    color: #00ffc3;
+    transition: all 0.3s;
+}
+
+a:hover {
+    color: #ff00b3;
+    text-shadow: 0px 0px 10px #ff00b3;
+}
