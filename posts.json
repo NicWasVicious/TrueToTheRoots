@@ -1,1 +1,17 @@
 
+[
+    {
+        "title": "New Kratom Legal Update",
+        "content": "A new regulation on kratom has passed. Here's everything you need to know.",
+        "image": "image1.jpg",
+        "link": "https://example.com",
+        "date": "2024-11-11"
+    },
+    {
+        "title": "Kratom Bans Explained",
+        "content": "Some states are banning kratom. What does this mean for consumers?",
+        "image": "image2.jpg",
+        "link": "https://example2.com",
+        "date": "2024-11-10"
+    }
+]
