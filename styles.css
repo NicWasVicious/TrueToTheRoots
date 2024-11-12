@@ -106,3 +106,52 @@ body {
     background-repeat: no-repeat; /* Prevents the image from repeating */
     color: #e0e0e0; /* Adjusts text color to be readable */
 }
+
+/* Basic Styling for Legal News Section */
+#posts {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 800px;
+    background: #16191d;
+    color: #d0d0d0;
+    border-left: 4px solid #00ffc3;
+}
+
+.post {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #20232a;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 255, 195, 0.3);
+}
+
+.post h2 {
+    color: #00ffc3;
+    font-size: 1.8rem;
+}
+
+.post p {
+    color: #d0d0d0;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.post img {
+    margin-top: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 255, 195, 0.2);
+}
+
+.post a {
+    display: block;
+    margin-top: 15px;
+    color: #00ffc3;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.post a:hover {
+    color: #ff00b3;
+    text-shadow: 0px 0px 10px #ff00b3;
+}
+
