@@ -4,18 +4,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Legal News - True to the Roots</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="legal-news.js" defer></script> <!-- JavaScript to load posts -->
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
+    <script>
+      // Firebase Configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyAesYL6bd3zipKieL9vp6PIPVeLz2sYagw",
+        authDomain: "triue-to-the-roots.firebaseapp.com",
+        projectId: "triue-to-the-roots",
+        storageBucket: "triue-to-the-roots.firebasestorage.app",
+        messagingSenderId: "250993597344",
+        appId: "1:250993597344:web:c871d0aeadae4aac4862c5",
+        measurementId: "G-VPEZYXRBHZ"
+      };
+
+      // Initialize Firebase
+      const app = firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore(app);
+
+      // Function to submit a new post
+      function submitPost(event) {
+        event.preventDefault();
+
+        const title = document.getElementById("post-title").value;
+        const content = document.getElementById("post-content").value;
+        const imageUrl = document.getElementById("post-image").value;
+
+        // Add the post to Firestore
+        db.collection("posts").add({
+          title: title,
+          content: content,
+          imageUrl: imageUrl,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp() // Automatically assigns the current server timestamp
+        })
+        .then(() => {
+          alert("Post submitted successfully!");
+          document.getElementById("post-title").value = "";
+          document.getElementById("post-content").value = "";
+          document.getElementById("post-image").value = "";
+        })
+        .catch(error => {
+          console.error("Error adding post: ", error);
+        });
+      }
+
+      // Fetch posts and display them in real-time
+      function fetchPosts() {
+        db.collection("posts")
+          .orderBy("timestamp", "desc") // Order by timestamp: newest first
+          .onSnapshot(snapshot => {
+            const postsList = document.getElementById("posts-list");
+            postsList.innerHTML = ""; // Clear existing posts
+
+            snapshot.forEach(doc => {
+              const post = doc.data();
+              const li = document.createElement("li");
+
+              li.innerHTML = `
+                <h3>${post.title}</h3>
+                <p>${post.content}</p>
+                ${post.imageUrl ? `<img src="${post.imageUrl}" alt="Post Image">` : ""}
+                <small>Posted on: ${new Date(post.timestamp.seconds * 1000).toLocaleString()}</small>
+              `;
+              postsList.appendChild(li);
+            });
+          });
+      }
+
+      // Load posts when the page is ready
+      window.onload = fetchPosts;
+    </script>
 </head>
 <body>
     <header>
-        <h1>Legal News</h1>
+        <h1>True to the Roots - Legal News</h1>
+        <!-- Add your navigation bar here -->
     </header>
 
     <main>
-        <div id="posts">
-            <!-- Posts will appear here dynamically -->
-        </div>
+        <!-- Form to submit new posts -->
+        <section>
+            <h2>Submit a News Post</h2>
+            <form id="post-form" onsubmit="submitPost(event)">
+                <label for="post-title">Post Title:</label>
+                <input type="text" id="post-title" required><br>
+
+                <label for="post-content">Content:</label>
+                <textarea id="post-content" required></textarea><br>
+
+                <label for="post-image">Image URL (optional):</label>
+                <input type="text" id="post-image"><br>
+
+                <button type="submit">Submit Post</button>
+            </form>
+        </section>
+
+        <!-- Section to display submitted posts -->
+        <section>
+            <h2>Recent Legal News</h2>
+            <ul id="posts-list">
+                <!-- Posts will be dynamically loaded here -->
+            </ul>
+        </section>
     </main>
 
     <footer>
