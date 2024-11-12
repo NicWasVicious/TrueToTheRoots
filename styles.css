@@ -155,3 +155,30 @@ body {
     text-shadow: 0px 0px 10px #ff00b3;
 }
 
+/* Header - Style for Login button */
+header {
+    position: relative;
+}
+
+.login-container {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.login-btn {
+    color: #00ffc3;
+    background-color: #1b1f23;
+    padding: 10px 20px;
+    font-size: 1rem;
+    text-decoration: none;
+    border: 1px solid #00ffc3;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+    background-color: #00ffc3;
+    color: #1b1f23;
+}
+
