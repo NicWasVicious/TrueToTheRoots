@@ -10,64 +10,110 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
     <script>
-      // Firebase Configuration
-      const firebaseConfig = {
-        apiKey: "AIzaSyAesYL6bd3zipKieL9vp6PIPVeLz2sYagw",
-        authDomain: "triue-to-the-roots.firebaseapp.com",
-        projectId: "triue-to-the-roots",
-        storageBucket: "triue-to-the-roots.firebasestorage.app",
-        messagingSenderId: "250993597344",
-        appId: "1:250993597344:web:c871d0aeadae4aac4862c5",
-        measurementId: "G-VPEZYXRBHZ"
-      };
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAesYL6bd3zipKieL9vp6PIPVeLz2sYagw",
+            authDomain: "triue-to-the-roots.firebaseapp.com",
+            projectId: "triue-to-the-roots",
+            storageBucket: "triue-to-the-roots.firebasestorage.app",
+            messagingSenderId: "250993597344",
+            appId: "1:250993597344:web:c871d0aeadae4aac4862c5",
+            measurementId: "G-VPEZYXRBHZ"
+        };
 
-      // Initialize Firebase
-      const app = firebase.initializeApp(firebaseConfig);
-      const auth = firebase.auth();
-      const db = firebase.firestore(app);
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore(app);
 
-      // Check if user is logged in
-      auth.onAuthStateChanged(user => {
-        if (!user) {
-          // If no user is logged in, redirect to login page
-          window.location.href = "login.html";
-        }
-      });
-
-      // Submit post function
-      function submitPost(event) {
-        event.preventDefault();
-
-        const title = document.getElementById("post-title").value;
-        const content = document.getElementById("post-content").value;
-        const imageUrl = document.getElementById("post-image").value;
-
-        db.collection("posts").add({
-          title: title,
-          content: content,
-          imageUrl: imageUrl,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-          user: auth.currentUser.email // Store the user's email with the post
-        })
-        .then(() => {
-          alert("Post submitted successfully!");
-          document.getElementById("post-title").value = "";
-          document.getElementById("post-content").value = "";
-          document.getElementById("post-image").value = "";
-        })
-        .catch(error => {
-          console.error("Error adding post: ", error);
+        // Check if user is logged in
+        auth.onAuthStateChanged(user => {
+            if (!user) {
+                // If no user is logged in, redirect to login page
+                window.location.href = "login.html";
+            } else {
+                // Show the post form for logged-in users
+                document.getElementById('post-form').style.display = 'block';
+            }
         });
-      }
 
-      // Fetch posts and display them
-      function fetchPosts() {
-        db.collection("posts")
-          .orderBy("timestamp", "desc")
-          .onSnapshot(snapshot => {
-            const postsList = document.getElementById("posts-list");
-            postsList.innerHTML = ""; 
+        // Submit post function
+        function submitPost(event) {
+            event.preventDefault();
 
-            snapshot.forEach(doc => {
-              const post = doc.data();
-              const li = document.createElement("li
+            const title = document.getElementById("post-title").value;
+            const content = document.getElementById("post-content").value;
+            const imageUrl = document.getElementById("post-image").value;
+
+            db.collection("posts").add({
+                title: title,
+                content: content,
+                imageUrl: imageUrl,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                user: auth.currentUser.email // Store the user's email with the post
+            })
+            .then(() => {
+                alert("Post submitted successfully!");
+                document.getElementById("post-title").value = "";
+                document.getElementById("post-content").value = "";
+                document.getElementById("post-image").value = "";
+            })
+            .catch(error => {
+                alert("Error adding post: " + error.message);
+            });
+        }
+
+        // Fetch posts and display them
+        function fetchPosts() {
+            db.collection("posts")
+                .orderBy("timestamp", "desc")
+                .onSnapshot(snapshot => {
+                    const postsList = document.getElementById("posts-list");
+                    postsList.innerHTML = ""; 
+
+                    snapshot.forEach(doc => {
+                        const post = doc.data();
+                        const li = document.createElement("li");
+                        li.textContent = `${post.title} - ${post.content}`;
+                        postsList.appendChild(li);
+                    });
+                });
+        }
+
+        window.onload = fetchPosts;
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Legal News - True to the Roots</h1>
+    </header>
+
+    <main>
+        <!-- Post Form (only visible if user is logged in) -->
+        <div id="post-form" style="display:none;">
+            <h2>Create a Post</h2>
+            <form onsubmit="submitPost(event)">
+                <label for="post-title">Title:</label>
+                <input type="text" id="post-title" required><br>
+
+                <label for="post-content">Content:</label>
+                <textarea id="post-content" required></textarea><br>
+
+                <label for="post-image">Image URL (optional):</label>
+                <input type="text" id="post-image"><br>
+
+                <button type="submit">Submit Post</button>
+            </form>
+        </div>
+
+        <h2>Recent Posts:</h2>
+        <ul id="posts-list">
+            <!-- Posts will appear here -->
+        </ul>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 True to the Roots. All rights reserved.</p>
+    </footer>
+</body>
+</html>
