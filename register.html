@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
+    <title>Register - True to the Roots</title>
 
-    <!-- Your Firebase config -->
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
+
     <script>
+        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAesYL6bd3zipKieL9vp6PIPVeLz2sYagw",
             authDomain: "true-to-the-roots.firebaseapp.com",
@@ -22,43 +22,55 @@
             measurementId: "G-VPEZYXRBHZ"
         };
 
+        // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Registration function
+        document.getElementById('register-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Create user with Firebase Auth
+            auth.createUserWithEmailAndPassword(email, password)
+                .then(function(userCredential) {
+                    // Successfully registered, redirect to login or welcome page
+                    alert("User registered successfully!");
+                    window.location.href = "login.html"; // Example of redirecting to login page
+                })
+                .catch(function(error) {
+                    // Handle errors
+                    alert("Error: " + error.message);
+                });
+        });
     </script>
 </head>
 <body>
 
-    <!-- Registration Form -->
-    <h2>Register</h2>
-    <form id="registerForm">
-        <label>Email: </label>
-        <input type="email" id="email" required><br>
-        <label>Password: </label>
-        <input type="password" id="password" required><br>
-        <button type="submit">Register</button>
-    </form>
+    <header>
+        <h1>True to the Roots - Register</h1>
+    </header>
 
-    <script>
-        // Get the form and the input fields
-        const form = document.getElementById("registerForm");
-        const emailInput = document.getElementById("email");
-        const passwordInput = document.getElementById("password");
+    <main>
+        <section>
+            <h2>Create a New Account</h2>
+            <form id="register-form">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Email" required>
 
-        // Add event listener to handle form submission
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault(); // Prevent form from submitting normally
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Password" required>
 
-            const email = emailInput.value;
-            const password = passwordInput.value;
+                <button type="submit">Register</button>
+            </form>
+        </section>
+    </main>
 
-            try {
-                // Use Firebase Authentication to register the user
-                await firebase.auth().createUserWithEmailAndPassword(email, password);
-                alert("User registered successfully!");
-            } catch (error) {
-                alert(error.message); // Show an error message if something goes wrong
-            }
-        });
-    </script>
+    <footer>
+        <p>&copy; 2024 True to the Roots. All rights reserved.</p>
+    </footer>
 
 </body>
 </html>
